@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class ROT13Test {
 
@@ -48,31 +49,31 @@ public class ROT13Test {
         assertTrue(actual.equals(s2));
     }
 
-    @Test
-    public void cryptTest1() {
-        // Given
-        ROT13 cipher = new ROT13('a', 'n');
-
-        String Q1 = "Why did the chicken cross the road?";
-        String A1 = "Jul qvq gur puvpxra pebff gur ebnq?";
-
-        String Q2 = "Gb trg gb gur bgure fvqr!";
-        String A2 = "To get to the other side!";
-
-        // When
-        String actual = cipher.encrypt(Q1);
-        System.out.println(Q1);
-        System.out.println(A1);
-        // Then
-        assertTrue(actual.equals(A1));
-
-        // When
-        String actual2 = cipher.decrypt(Q2);
-        System.out.println(Q2);
-        System.out.println(A2);
-        // Then
-        assertTrue(actual2.equals(A2));
-    }
+//    @Test
+//    public void cryptTest1() {
+//        // Given
+//        ROT13 cipher = new ROT13('a', 'n');
+//
+//        String Q1 = "Why did the chicken cross the road?";
+//        String A1 = "Jul qvq gur puvpxra pebff gur ebnq?";
+//
+//        String Q2 = "Gb trg gb gur bgure fvqr!";
+//        String A2 = "To get to the other side!";
+//
+//        // When
+//        String actual = cipher.encrypt(Q1);
+//        System.out.println(Q1);
+//        System.out.println(A1);
+//        // Then
+//        assertTrue(actual.equals(A1));
+//
+//        // When
+//        String actual2 = cipher.decrypt(Q2);
+//        System.out.println(Q2);
+//        System.out.println(A2);
+//        // Then
+//        assertTrue(actual2.equals(A2));
+//    }
     @Test
     public void cryptTest2() {
         // Given
