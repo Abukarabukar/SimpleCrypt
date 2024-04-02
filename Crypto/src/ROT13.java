@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
@@ -12,36 +13,51 @@ public class ROT13 {
     private char[] shiftedAlphabet;
     private char[] originalAlphabet;
 
-    ROT13(Character cs, Character cf) {
-    }
-
     ROT13() {
     }
 
+    int distance;
+    int reShift;
     public ROT13(char start, char mid) {
+
         this.originalAlphabet = new char[26];
         this.shiftedAlphabet = new char[26];
 
         int shift = mid - start; // Calculate the shift distance
+        reShift = start - mid;
+        distance = shift;
         for (int i = 0; i < 26; i++) {
             originalAlphabet[i] = (char) ('a' + i); // Fill the original alphabet
             shiftedAlphabet[i] = (char) ('a' + (i + shift) % 26); // Fill the shifted alphabet
         }
     }
 
+
+
     public String crypt(String text) throws UnsupportedOperationException {
         StringBuilder encrytMessage = new StringBuilder();
-        text = text.toLowerCase();
+//        text = text.toLowerCase();
         for (int i = 0; i < text.length(); i++) {
-            char ch = text.charAt(i);
+            Character ch = text.charAt(i);
             if (Character.isLetter(ch)) {
-                encrytMessage.append((char) ((ch - 'a' + 13) % 26 + 'a'));
+                if (65 <= ch && ch <= 90) {
+
+                    encrytMessage.append((char) ((ch - 'A' + distance) % 26 + 'A'));
+                } else {
+                    encrytMessage.append((char) ((ch - 'a' + distance) % 26 + 'a'));
+
+                }
             } else {
                 encrytMessage.append(ch);
             }
+
+
         }
         return encrytMessage.toString();
     }
+
+
+    Scanner input = new Scanner(System.in);
 
 
 
@@ -52,47 +68,34 @@ public class ROT13 {
 
         StringBuilder encryptedText = new StringBuilder();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
-            PrintWriter writer = new PrintWriter("sonnet18.enc");
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                String encryptedLine = crypt(line);
-                encryptedText.append(encryptedLine).append("\n");
-//                System.out.println(crypt(line));
+        String encryptedLine = crypt(text);
+        encryptedText.append(encryptedLine);
 
-                writer.println(crypt(line));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        System.out.println(encryptedText);
 
         return encryptedText.toString();
     }
 
-//    public String decrypt(String text) {
-//        StringBuilder decryptedText = new StringBuilder();
-//
-//        try (BufferedReader reader = new BufferedReader(new FileReader(text))) {
-//            PrintWriter writer = new PrintWriter("sonnet18.txt");
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                String decryptedLine = crypt(line);
-//                decryptedText.append(decryptedLine).append("\n");
-//                System.out.println(crypt(line));
-//
-//                writer.println(crypt(line));
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//        return decryptedText.toString();
-//    }
+    public String decrypt(String text) {
+        StringBuilder encrytMessage = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            Character ch = text.charAt(i);
+            if (Character.isLetter(ch)) {
+                if (65 <= ch && ch <= 90) {
+
+                    encrytMessage.append((char) ((ch - 'A' - distance + 26) % 26 + 'A'));
+                } else {
+                    encrytMessage.append((char) ((ch - 'a' - distance + 26) % 26 + 'a'));
+
+                }
+            } else {
+                encrytMessage.append(ch);
+            }
+
+
+        }
+        return encrytMessage.toString();
+    }
 
     public static String rotate(String s, Character c) {
         int index = s.indexOf(c);
@@ -102,4 +105,7 @@ public class ROT13 {
         return s;
 
     }
+
+
+
 }
